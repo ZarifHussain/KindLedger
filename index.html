@@ -1,5 +1,747 @@
-<!doctype html>
-<html>
-  <head><meta charset="utf-8"><title>Test</title></head>
-  <body><h1>It works!</h1></body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>KindLedger Escalation Hub (Local)</title>
+  <style>
+    :root{
+      --bg:#0e1217;           /* app background */
+      --panel:#111827;        /* cards */
+      --panel-soft:#0f172a;   /* softer panels */
+      --muted:#94a3b8;        /* secondary text */
+      --text:#e5e7eb;         /* primary text */
+      --brand:#2563eb;        /* brand */
+      --brand-2:#38bdf8;      /* accent */
+      --ok:#16a34a;           /* success */
+      --warn:#f59e0b;         /* warning */
+      --bad:#ef4444;          /* danger */
+      --chip:#1f2937;         /* chip bg */
+      --border:#1f2937;       /* borders */
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+      background:linear-gradient(180deg, #0b1020, #0a0f1a 40%, #0a0e19 100%);
+      color:var(--text);
+    }
+    a{color:var(--brand-2); text-decoration:none}
+    a:hover{text-decoration:underline}
+
+    /* Layout */
+    .app{display:grid; grid-template-rows:64px 1fr; height:100%;}
+    .topbar{
+      display:flex; align-items:center; justify-content:space-between;
+      padding:10px 16px; border-bottom:1px solid var(--border);
+      background:linear-gradient(90deg, #0b1223, #0c1530);
+      box-shadow:0 1px 0 rgba(255,255,255,0.03) inset, 0 10px 40px rgba(0,0,0,0.3);
+    }
+    .brand{display:flex; align-items:center; gap:12px}
+    .logo{width:36px; height:36px; border-radius:10px; background:linear-gradient(135deg,#2563eb,#38bdf8); display:grid; place-items:center; font-weight:800}
+    .logo span{color:white}
+    .brand h1{margin:0; font-size:16px; letter-spacing:.4px; color:#dbeafe}
+
+    .tabs{display:flex; gap:8px; flex-wrap:wrap}
+    .tab{padding:8px 12px; border:1px solid var(--border); border-radius:10px; background:rgba(255,255,255,0.02); cursor:pointer; font-size:14px; color:#cbd5e1}
+    .tab.active{background:linear-gradient(180deg,#111b33,#0c1326); border-color:#1e293b; color:#e2e8f0}
+
+    .container{padding:18px; height:100%; overflow:auto}
+    .panel{background:linear-gradient(180deg,#0c1222,#0a0f1c); border:1px solid var(--border); border-radius:14px; padding:14px}
+    .grid{display:grid; gap:14px}
+    .grid.cols-2{grid-template-columns:1fr 1fr}
+    .grid.cols-3{grid-template-columns:repeat(3,1fr)}
+    @media (max-width: 980px){ .grid.cols-2, .grid.cols-3{grid-template-columns:1fr} }
+
+    .section-title{margin:0 0 10px 0; font-size:14px; color:#cbd5e1; display:flex; align-items:center; gap:8px}
+    .chips{display:flex; gap:6px; flex-wrap:wrap}
+    .chip{background:var(--chip); border:1px solid var(--border); padding:4px 8px; border-radius:999px; font-size:12px; color:#cbd5e1}
+
+    /* Tables */
+    table{width:100%; border-collapse:collapse}
+    th, td{padding:10px 10px; text-align:left; border-bottom:1px solid var(--border)}
+    th{color:#cbd5e1; font-weight:600; background:#0b1428}
+    tbody tr:hover{background:rgba(255,255,255,0.02)}
+
+    /* Forms */
+    .form{display:grid; gap:10px}
+    .row{display:grid; gap:10px; grid-template-columns:1fr 1fr}
+    @media (max-width: 980px){ .row{grid-template-columns:1fr} }
+    label{font-size:12px; color:#93a3b8}
+    input, select, textarea{
+      width:100%; padding:10px 12px; border-radius:10px; border:1px solid var(--border);
+      background:#0b1223; color:var(--text); outline:none;
+    }
+    textarea{min-height:88px; resize:vertical}
+
+    .btns{display:flex; gap:10px; flex-wrap:wrap}
+    .btn{padding:10px 14px; border-radius:10px; border:1px solid #1f2937; background:#0d1a34; color:#e2e8f0; cursor:pointer}
+    .btn:hover{filter:brightness(1.05)}
+    .btn.primary{background:linear-gradient(180deg,#2563eb,#1d4ed8); border-color:#1d4ed8}
+    .btn.ghost{background:#0c1222}
+    .btn.warn{background:#331b06; border-color:#7c2d12; color:#fdba74}
+    .btn.ok{background:#062b16; border-color:#14532d; color:#86efac}
+
+    .kbd{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace; background:#0c1222; border:1px solid var(--border); border-radius:8px; padding:2px 6px; font-size:12px}
+
+    .muted{color:var(--muted)}
+    .right{display:flex; justify-content:flex-end}
+    .sep{height:1px; background:var(--border); margin:10px 0}
+
+    .pill{padding:2px 8px; border-radius:999px; border:1px solid var(--border); font-size:12px}
+    .pill.open{background:#071a0f; color:#86efac; border-color:#14532d}
+    .pill.hold{background:#1a1306; color:#fcd34d; border-color:#a16207}
+    .pill.closed{background:#1a0b0b; color:#fca5a5; border-color:#7f1d1d}
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="topbar">
+      <div class="brand">
+        <div class="logo"><span>K</span></div>
+        <h1>KindLedger — Escalation Hub (Local)</h1>
+      </div>
+      <div class="tabs" id="tabs">
+        <button class="tab active" data-tab="queue">Queue</button>
+        <button class="tab" data-tab="cases">Cases</button>
+        <button class="tab" data-tab="touches">Touches</button>
+        <button class="tab" data-tab="promises">Promises</button>
+        <button class="tab" data-tab="data">Data</button>
+        <button class="tab" data-tab="settings">Settings</button>
+      </div>
+    </div>
+
+    <div class="container" id="screen-queue"></div>
+    <div class="container" id="screen-cases" style="display:none"></div>
+    <div class="container" id="screen-touches" style="display:none"></div>
+    <div class="container" id="screen-promises" style="display:none"></div>
+    <div class="container" id="screen-data" style="display:none"></div>
+    <div class="container" id="screen-settings" style="display:none"></div>
+  </div>
+
+  <script>
+  // ==========
+  // Utilities
+  // ==========
+  const $ = sel => document.querySelector(sel);
+  const $$ = sel => Array.from(document.querySelectorAll(sel));
+  const fmtDate = d => d ? new Date(d).toISOString().slice(0,10) : '';
+  const fmtDateTime = d => {
+    if(!d) return ''; const x = new Date(d);
+    const pad = n => String(n).padStart(2,'0');
+    return `${x.getFullYear()}-${pad(x.getMonth()+1)}-${pad(x.getDate())} ${pad(x.getHours())}:${pad(x.getMinutes())}`;
+  }
+  const todayKey = () => fmtDate(new Date());
+  const uid = p => `${p||'ID'}_${Date.now()}_${Math.random().toString(36).slice(2,8)}`;
+  const toNum = v => (v===''||v==null||isNaN(Number(v))) ? 0 : Number(v);
+  const parseDate = v => v ? new Date(v) : null;
+
+  // ==========
+  // Storage (localStorage)
+  // ==========
+  const store = {
+    key: 'kl_local_hub_v1',
+    get(){
+      const raw = localStorage.getItem(this.key);
+      if(!raw) return { cases:[], touches:[], promises:[], config:{ orgName:'', replyTo:'', owner:'' } };
+      try { return JSON.parse(raw) } catch(e){ return { cases:[], touches:[], promises:[], config:{ orgName:'', replyTo:'', owner:'' } } }
+    },
+    set(data){ localStorage.setItem(this.key, JSON.stringify(data)); },
+    wipe(){ localStorage.removeItem(this.key); }
+  }
+
+  let DB = store.get();
+
+  // ==========
+  // Data helpers
+  // ==========
+  function addCase(c){ c.id = c.id||uid('CASE'); c.createdAt = c.createdAt||new Date(); c.updatedAt = new Date(); DB.cases.push(c); save(); return c; }
+  function updateCase(id, patch){ const c = DB.cases.find(x=>x.id===id); if(!c) return; Object.assign(c, patch, {updatedAt:new Date()}); save(); return c; }
+  function addTouch(t){ t.id = t.id||uid('TOUCH'); t.createdAt = t.createdAt||new Date(); DB.touches.push(t); save(); return t; }
+  function addPromise(p){ p.id = p.id||uid('PTP'); p.openedAt = p.openedAt||new Date(); DB.promises.push(p); save(); return p; }
+  function updatePromise(id, patch){ const p = DB.promises.find(x=>x.id===id); if(!p) return; Object.assign(p, patch); save(); return p; }
+  function caseById(id){ return DB.cases.find(x=>x.id===id); }
+  function touchesForCase(id){ return DB.touches.filter(t=>t.caseId===id).sort((a,b)=> new Date(b.createdAt)-new Date(a.createdAt)); }
+  function promisesForCase(id){ return DB.promises.filter(p=>p.caseId===id).sort((a,b)=> new Date(b.promisedDate)-new Date(a.promisedDate)); }
+  function save(){ store.set(DB); renderActive(); }
+
+  // Defaults for demo if empty
+  if(DB.cases.length===0){
+    const c1 = addCase({
+      customerName:'Acme Ltd', customerEmail:'ap@acme.co.uk', customerPhone:'+44 20 7123 4567',
+      invoiceNumbers:'INV-1001, INV-1010', amount:2500, priority:'High', status:'Open', owner:'Team',
+      nextAction: fmtDate(new Date()), holdUntil:'', issueType:'Slow pay', driveFolder:''
+    });
+    addTouch({caseId:c1.id, when:fmtDateTime(new Date()), channel:'Email', outcome:'Sent L2', summary:'Sent consolidated reminder', nextActionDate: fmtDate(new Date())});
+    addPromise({caseId:c1.id, promisedDate: fmtDate(new Date(Date.now()+3*86400000)), amount:1000, status:'Open', followUpDate: fmtDate(new Date(Date.now()+3*86400000)), notes:'Needs PO'});
+  }
+
+  // ==========
+  // Queue logic
+  // ==========
+  function computeQueue(){
+    const today = new Date(todayKey());
+
+    const ptpDue = DB.promises.filter(p=> p.status==='Open' && p.promisedDate && new Date(p.promisedDate) <= today)
+      .map(p=> ({ type:'PTP due', caseId:p.caseId, label:`Promise due ${p.promisedDate}`, weight:100, promised:p }));
+
+    const touchesDue = DB.touches.filter(t=> t.nextActionDate && new Date(t.nextActionDate) <= today)
+      .map(t=> ({ type:'Follow-up', caseId:t.caseId, label:`Next action ${t.nextActionDate}`, weight:80, touch:t }));
+
+    const caseNext = DB.cases.filter(c=> c.status==='Open' && c.nextAction && new Date(c.nextAction) <= today && (!c.holdUntil || new Date(c.holdUntil) < today))
+      .map(c=> ({ type:'Case action', caseId:c.id, label:`Next action ${c.nextAction}`, weight:60 }));
+
+    const highValue = DB.cases.filter(c=> c.status==='Open' && toNum(c.amount) >= 2000 && (!c.holdUntil || new Date(c.holdUntil) < today))
+      .map(c=> ({ type:'High £', caseId:c.id, label:`£${toNum(c.amount).toLocaleString('en-GB')}`, weight:40 }));
+
+    const all = [...ptpDue, ...touchesDue, ...caseNext, ...highValue];
+    all.sort((a,b)=> b.weight - a.weight);
+    return all;
+  }
+
+  // ==========
+  // Screens
+  // ==========
+  function renderQueue(){
+    const el = $('#screen-queue');
+    const q = computeQueue();
+    const rows = q.map(item=>{
+      const c = caseById(item.caseId)||{};
+      const chipCls = item.type==='PTP due'?'ok': item.type==='High £'?'warn':'ghost';
+      const statusPill = c.status==='Open'?'open': c.status==='On hold'?'hold':'closed';
+      return `<tr>
+        <td><span class="chip ${chipCls}">${item.type}</span></td>
+        <td><b>${c.customerName||''}</b><div class="muted">${c.invoiceNumbers||''}</div></td>
+        <td>£${toNum(c.amount).toLocaleString('en-GB')}</td>
+        <td><span class="pill ${statusPill}">${c.status||''}</span></td>
+        <td>${item.label}</td>
+        <td class="right"><button class="btn" onclick="openCase('${c.id}')">Open</button></td>
+      </tr>`
+    }).join('') || `<tr><td colspan="6" class="muted" style="text-align:center; padding:20px">Nothing queued for today 🎉</td></tr>`;
+
+    el.innerHTML = `
+      <div class="grid cols-2">
+        <div class="panel">
+          <h3 class="section-title">Today's queue</h3>
+          <table>
+            <thead><tr><th>Type</th><th>Customer</th><th>Amount</th><th>Status</th><th>Reason</th><th></th></tr></thead>
+            <tbody>${rows}</tbody>
+          </table>
+        </div>
+        <div class="panel">
+          <h3 class="section-title">Quick add — touch</h3>
+          ${renderQuickTouchForm()}
+          <div class="sep"></div>
+          <h3 class="section-title">Quick add — case</h3>
+          ${renderQuickCaseForm()}
+        </div>
+      </div>
+    `;
+  }
+
+  function renderCases(){
+    const el = $('#screen-cases');
+
+    const rows = DB.cases.slice().sort((a,b)=> new Date(b.updatedAt)-new Date(a.updatedAt)).map(c=>{
+      const statusPill = c.status==='Open'?'open': c.status==='On hold'?'hold':'closed';
+      return `<tr>
+        <td><b>${c.customerName}</b><div class="muted">${c.customerEmail||''}</div></td>
+        <td>${c.invoiceNumbers||''}</td>
+        <td>£${toNum(c.amount).toLocaleString('en-GB')}</td>
+        <td>${c.priority||''}</td>
+        <td><span class="pill ${statusPill}">${c.status||''}</span></td>
+        <td>${c.nextAction?c.nextAction:''}</td>
+        <td class="right"><button class="btn" onclick="openCase('${c.id}')">Open</button></td>
+      </tr>`
+    }).join('') || `<tr><td colspan="7" class="muted" style="text-align:center; padding:20px">No cases yet</td></tr>`
+
+    el.innerHTML = `
+      <div class="panel">
+        <div class="row">
+          <div>
+            <h3 class="section-title">Cases</h3>
+          </div>
+          <div class="right">
+            <button class="btn" onclick="newCaseModal()">New case</button>
+          </div>
+        </div>
+        <table>
+          <thead><tr><th>Customer</th><th>Invoices</th><th>Amount</th><th>Priority</th><th>Status</th><th>Next action</th><th></th></tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
+    `;
+  }
+
+  function renderTouches(){
+    const el = $('#screen-touches');
+    const rows = DB.touches.slice().sort((a,b)=> new Date(b.createdAt)-new Date(a.createdAt)).map(t=>{
+      const c = caseById(t.caseId)||{};
+      return `<tr>
+        <td>${fmtDateTime(t.when||t.createdAt)}</td>
+        <td>${t.channel}</td>
+        <td>${t.outcome||''}</td>
+        <td>${c.customerName||''}<div class="muted">${c.invoiceNumbers||''}</div></td>
+        <td>${t.summary||''}</td>
+        <td>${t.nextActionDate||''}</td>
+        <td class="right"><button class="btn" onclick="openCase('${t.caseId}')">Open</button></td>
+      </tr>`
+    }).join('') || `<tr><td colspan="7" class="muted" style="text-align:center; padding:20px">No touches logged yet</td></tr>`
+
+    el.innerHTML = `
+      <div class="panel">
+        <h3 class="section-title">Touches (latest first)</h3>
+        <table>
+          <thead><tr><th>When</th><th>Channel</th><th>Outcome</th><th>Case</th><th>Summary</th><th>Next action</th><th></th></tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
+    `;
+  }
+
+  function renderPromises(){
+    const el = $('#screen-promises');
+    const rows = DB.promises.slice().sort((a,b)=> new Date(a.promisedDate)-new Date(b.promisedDate)).map(p=>{
+      const c = caseById(p.caseId)||{};
+      const statusColor = p.status==='Open'?'ok': p.status==='Kept'?'open': p.status==='Broken'?'bad':'warn';
+      return `<tr>
+        <td>${fmtDate(p.openedAt)}</td>
+        <td>${fmtDate(p.promisedDate)}</td>
+        <td>£${toNum(p.amount).toLocaleString('en-GB')}</td>
+        <td><span class="pill ${statusColor}">${p.status}</span></td>
+        <td>${c.customerName||''}</td>
+        <td>${p.followUpDate||''}</td>
+        <td class="right">
+          <button class="btn" onclick="markPromise('${p.id}','Kept')">Mark kept</button>
+          <button class="btn warn" onclick="markPromise('${p.id}','Broken')">Mark broken</button>
+        </td>
+      </tr>`
+    }).join('') || `<tr><td colspan="7" class="muted" style="text-align:center; padding:20px">No promises yet</td></tr>`
+
+    el.innerHTML = `
+      <div class="panel">
+        <h3 class="section-title">Promises to Pay</h3>
+        <table>
+          <thead><tr><th>Opened</th><th>Promised date</th><th>Amount</th><th>Status</th><th>Case</th><th>Follow-up</th><th></th></tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
+    `;
+  }
+
+  function renderData(){
+    const el = $('#screen-data');
+    el.innerHTML = `
+      <div class="grid cols-2">
+        <div class="panel">
+          <h3 class="section-title">Export / Backup</h3>
+          <div class="btns">
+            <button class="btn" onclick="exportJSON()">Export JSON</button>
+            <button class="btn" onclick="exportCSV('cases')">Export Cases CSV</button>
+            <button class="btn" onclick="exportCSV('touches')">Export Touches CSV</button>
+            <button class="btn" onclick="exportCSV('promises')">Export Promises CSV</button>
+          </div>
+          <p class="muted">Tip: export at end of day for backup. This app is single-user and stores data in your browser.</p>
+        </div>
+        <div class="panel">
+          <h3 class="section-title">Import</h3>
+          <input type="file" id="fileImport" accept="application/json,text/csv" />
+          <div class="btns" style="margin-top:10px">
+            <button class="btn" onclick="importFile()">Import selected file</button>
+            <button class="btn warn" onclick="if(confirm('Wipe all local data?')){ DB={ cases:[], touches:[], promises:[], config: DB.config||{} }; save(); }">Wipe data</button>
+          </div>
+          <p class="muted">JSON import will replace your current dataset. CSV import can be added per table (see docs in code).</p>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderSettings(){
+    const el = $('#screen-settings');
+    const c = DB.config||{ orgName:'', replyTo:'', owner:'' };
+    el.innerHTML = `
+      <div class="panel">
+        <h3 class="section-title">Settings</h3>
+        <div class="form">
+          <div class="row">
+            <div><label>Organisation name</label><input id="setOrg" value="${c.orgName||''}" /></div>
+            <div><label>Default reply-to email</label><input id="setReply" value="${c.replyTo||''}" /></div>
+          </div>
+          <div class="row">
+            <div><label>Default owner</label><input id="setOwner" value="${c.owner||''}" /></div>
+            <div><label>High value threshold (£)</label><input id="setHigh" value="${c.highValue||2000}" type="number" /></div>
+          </div>
+          <div class="btns">
+            <button class="btn primary" onclick="saveSettings()">Save settings</button>
+          </div>
+          <p class="muted">These defaults are used when creating cases and computing the daily queue.</p>
+        </div>
+      </div>
+    `;
+  }
+
+  // ==========
+  // Case detail modal (inline renderer)
+  // ==========
+  function openCase(id){
+    const c = caseById(id); if(!c) return alert('Case not found');
+    const tList = touchesForCase(id).map(t=> `<tr><td>${fmtDateTime(t.when||t.createdAt)}</td><td>${t.channel}</td><td>${t.outcome||''}</td><td>${t.summary||''}</td><td>${t.nextActionDate||''}</td></tr>`).join('') || `<tr><td colspan="5" class="muted">No touches yet</td></tr>`
+    const pList = promisesForCase(id).map(p=> `<tr><td>${fmtDate(p.openedAt)}</td><td>${fmtDate(p.promisedDate)}</td><td>£${toNum(p.amount).toLocaleString('en-GB')}</td><td>${p.status}</td><td>${p.followUpDate||''}</td></tr>`).join('') || `<tr><td colspan="5" class="muted">No promises yet</td></tr>`
+
+    const html = `
+      <div class="panel" style="max-width:1100px; margin:0 auto">
+        <div class="row">
+          <div>
+            <h3 class="section-title">Case — ${c.customerName} <span class="muted">(${c.invoiceNumbers||''})</span></h3>
+            <div class="chips">
+              <span class="chip">ID: ${c.id}</span>
+              <span class="chip">Amount £${toNum(c.amount).toLocaleString('en-GB')}</span>
+              <span class="chip">Priority: ${c.priority||''}</span>
+            </div>
+          </div>
+          <div class="right btns">
+            <button class="btn" onclick="copyEmailSubject('${c.id}')">Copy email subject</button>
+            <button class="btn ok" onclick="saveCaseEdits('${c.id}')">Save changes</button>
+          </div>
+        </div>
+        <div class="sep"></div>
+        <div class="form">
+          <div class="row">
+            <div><label>Customer name</label><input id="ce_name" value="${c.customerName||''}"></div>
+            <div><label>Customer email</label><input id="ce_email" value="${c.customerEmail||''}"></div>
+          </div>
+          <div class="row">
+            <div><label>Customer phone</label><input id="ce_phone" value="${c.customerPhone||''}"></div>
+            <div><label>Drive folder URL</label><input id="ce_drive" value="${c.driveFolder||''}"></div>
+          </div>
+          <div class="row">
+            <div><label>Invoices</label><input id="ce_invoices" value="${c.invoiceNumbers||''}"></div>
+            <div><label>Amount (£)</label><input id="ce_amount" type="number" value="${toNum(c.amount)}"></div>
+          </div>
+          <div class="row">
+            <div>
+              <label>Status</label>
+              <select id="ce_status">
+                <option ${c.status==='Open'?'selected':''}>Open</option>
+                <option ${c.status==='On hold'?'selected':''}>On hold</option>
+                <option ${c.status==='Closed'?'selected':''}>Closed</option>
+              </select>
+            </div>
+            <div>
+              <label>Priority</label>
+              <select id="ce_priority">
+                <option ${c.priority==='High'?'selected':''}>High</option>
+                <option ${c.priority==='Medium'?'selected':''}>Medium</option>
+                <option ${c.priority==='Low'?'selected':''}>Low</option>
+              </select>
+            </div>
+          </div>
+          <div class="row">
+            <div><label>Next action (date)</label><input id="ce_next" type="date" value="${c.nextAction||''}"></div>
+            <div><label>Hold until (date)</label><input id="ce_hold" type="date" value="${c.holdUntil||''}"></div>
+          </div>
+          <div class="row">
+            <div><label>Issue type</label><input id="ce_issue" value="${c.issueType||''}"></div>
+            <div><label>Owner</label><input id="ce_owner" value="${c.owner||''}"></div>
+          </div>
+        </div>
+
+        <div class="sep"></div>
+        <div class="grid cols-2">
+          <div>
+            <h4 class="section-title">Log touch</h4>
+            ${renderTouchForm(c.id)}
+          </div>
+          <div>
+            <h4 class="section-title">Promise to pay</h4>
+            ${renderPromiseForm(c.id)}
+          </div>
+        </div>
+
+        <div class="sep"></div>
+        <div class="grid cols-2">
+          <div>
+            <h4 class="section-title">Touches</h4>
+            <table><thead><tr><th>When</th><th>Channel</th><th>Outcome</th><th>Summary</th><th>Next</th></tr></thead><tbody>${tList}</tbody></table>
+          </div>
+          <div>
+            <h4 class="section-title">Promises</h4>
+            <table><thead><tr><th>Opened</th><th>Promised</th><th>Amount</th><th>Status</th><th>Follow-up</th></tr></thead><tbody>${pList}</tbody></table>
+          </div>
+        </div>
+      </div>
+    `;
+
+    // show in a simple overlay
+    showOverlay(html);
+  }
+
+  function saveCaseEdits(id){
+    const patch = {
+      customerName: $('#ce_name').value,
+      customerEmail: $('#ce_email').value,
+      customerPhone: $('#ce_phone').value,
+      driveFolder: $('#ce_drive').value,
+      invoiceNumbers: $('#ce_invoices').value,
+      amount: toNum($('#ce_amount').value),
+      status: $('#ce_status').value,
+      priority: $('#ce_priority').value,
+      nextAction: $('#ce_next').value,
+      holdUntil: $('#ce_hold').value,
+      issueType: $('#ce_issue').value,
+      owner: $('#ce_owner').value
+    };
+    updateCase(id, patch);
+    hideOverlay();
+  }
+
+  function copyEmailSubject(id){
+    const c = caseById(id); if(!c) return;
+    const subj = `[Case ${c.id}] ${c.customerName} — ${c.invoiceNumbers} — £${toNum(c.amount).toLocaleString('en-GB')}`;
+    navigator.clipboard.writeText(subj).then(()=> alert('Copied subject to clipboard'));
+  }
+
+  // ==========
+  // Forms
+  // ==========
+  function renderQuickTouchForm(){
+    const caseOpts = DB.cases.map(c=> `<option value="${c.id}">${c.customerName} — ${c.invoiceNumbers}</option>`).join('');
+    return `
+      <div class="form">
+        <div class="row">
+          <div><label>Case</label><select id="qt_case">${caseOpts}</select></div>
+          <div><label>When</label><input type="datetime-local" id="qt_when" value="${new Date().toISOString().slice(0,16)}"></div>
+        </div>
+        <div class="row">
+          <div><label>Channel</label>
+            <select id="qt_channel">
+              <option>Phone</option><option>Text</option><option>Email</option><option>Other</option>
+            </select>
+          </div>
+          <div><label>Outcome</label>
+            <select id="qt_outcome">
+              <option>Spoke</option><option>Voicemail</option><option>No answer</option><option>Sent text</option><option>Sent email</option>
+            </select>
+          </div>
+        </div>
+        <div><label>Summary</label><textarea id="qt_summary" placeholder="What happened? Next steps?"></textarea></div>
+        <div class="row">
+          <div><label>Next action date (optional)</label><input type="date" id="qt_next"></div>
+          <div class="btns right" style="align-items:end"><button class="btn ok" onclick="submitQuickTouch()">Log touch</button></div>
+        </div>
+      </div>`
+  }
+
+  function submitQuickTouch(){
+    const caseId = $('#qt_case').value; if(!caseId) return alert('Pick a case');
+    addTouch({
+      caseId,
+      when: $('#qt_when').value.replace('T',' '),
+      channel: $('#qt_channel').value,
+      outcome: $('#qt_outcome').value,
+      summary: $('#qt_summary').value,
+      nextActionDate: $('#qt_next').value || ''
+    });
+    // if next action was set, push to case
+    if($('#qt_next').value){ updateCase(caseId, { nextAction: $('#qt_next').value }); }
+    alert('Touch logged');
+    renderQueue();
+  }
+
+  function renderQuickCaseForm(){
+    const c = DB.config||{};
+    return `
+      <div class="form">
+        <div class="row">
+          <div><label>Customer name</label><input id="qc_name" placeholder="e.g., Acme Ltd"></div>
+          <div><label>Customer email</label><input id="qc_email" placeholder="ap@customer.com"></div>
+        </div>
+        <div class="row">
+          <div><label>Customer phone</label><input id="qc_phone" placeholder="+44 ..."></div>
+          <div><label>Amount (£)</label><input id="qc_amount" type="number" placeholder="0"></div>
+        </div>
+        <div class="row">
+          <div><label>Invoices</label><input id="qc_invoices" placeholder="INV-1001, INV-1002"></div>
+          <div><label>Priority</label><select id="qc_priority"><option>High</option><option selected>Medium</option><option>Low</option></select></div>
+        </div>
+        <div class="row">
+          <div><label>Next action (date)</label><input type="date" id="qc_next" value="${fmtDate(new Date())}"></div>
+          <div><label>Owner</label><input id="qc_owner" value="${c.owner||''}" placeholder="Assignee"></div>
+        </div>
+        <div class="btns right"><button class="btn primary" onclick="submitQuickCase()">Create case</button></div>
+      </div>`
+  }
+
+  function submitQuickCase(){
+    const c = addCase({
+      customerName: $('#qc_name').value,
+      customerEmail: $('#qc_email').value,
+      customerPhone: $('#qc_phone').value,
+      amount: toNum($('#qc_amount').value),
+      invoiceNumbers: $('#qc_invoices').value,
+      priority: $('#qc_priority').value,
+      status: 'Open',
+      nextAction: $('#qc_next').value,
+      owner: $('#qc_owner').value,
+      issueType: '', driveFolder:''
+    });
+    alert('Case created');
+    renderCases();
+  }
+
+  function renderTouchForm(caseId){
+    return `
+      <div class="form">
+        <div class="row">
+          <div><label>When</label><input type="datetime-local" id="ct_when" value="${new Date().toISOString().slice(0,16)}"></div>
+          <div><label>Channel</label>
+            <select id="ct_channel"><option>Phone</option><option>Text</option><option>Email</option><option>Other</option></select>
+          </div>
+        </div>
+        <div class="row">
+          <div><label>Outcome</label>
+            <select id="ct_outcome"><option>Spoke</option><option>Voicemail</option><option>No answer</option><option>Sent text</option><option>Sent email</option></select>
+          </div>
+          <div><label>Next action date (optional)</label><input type="date" id="ct_next"></div>
+        </div>
+        <div><label>Summary</label><textarea id="ct_summary" placeholder="Notes"></textarea></div>
+        <div class="btns right"><button class="btn ok" onclick="submitTouch('${caseId}')">Add touch</button></div>
+      </div>`
+  }
+  function submitTouch(caseId){
+    addTouch({ caseId, when: $('#ct_when').value.replace('T',' '), channel: $('#ct_channel').value, outcome: $('#ct_outcome').value, summary: $('#ct_summary').value, nextActionDate: $('#ct_next').value||'' });
+    if($('#ct_next').value){ updateCase(caseId, { nextAction: $('#ct_next').value }); }
+    alert('Touch added');
+    hideOverlay();
+  }
+
+  function renderPromiseForm(caseId){
+    return `
+      <div class="form">
+        <div class="row">
+          <div><label>Promised date</label><input type="date" id="pp_date" value="${fmtDate(new Date(Date.now()+2*86400000))}"></div>
+          <div><label>Amount (£)</label><input id="pp_amt" type="number" placeholder="0"></div>
+        </div>
+        <div class="row">
+          <div><label>Status</label><select id="pp_status"><option>Open</option><option>Kept</option><option>Broken</option><option>Extended</option></select></div>
+          <div><label>Follow-up date</label><input type="date" id="pp_follow" value="${fmtDate(new Date(Date.now()+2*86400000))}"></div>
+        </div>
+        <div><label>Notes</label><textarea id="pp_notes" placeholder="Any context"></textarea></div>
+        <div class="btns right"><button class="btn ok" onclick="submitPromise('${caseId}')">Add promise</button></div>
+      </div>`
+  }
+  function submitPromise(caseId){
+    addPromise({ caseId, promisedDate: $('#pp_date').value, amount: toNum($('#pp_amt').value), status: $('#pp_status').value, followUpDate: $('#pp_follow').value, notes: $('#pp_notes').value });
+    // Put case on hold until promised date
+    if($('#pp_date').value){ updateCase(caseId, { holdUntil: $('#pp_date').value, nextAction: $('#pp_follow').value||$('#pp_date').value }); }
+    alert('Promise recorded & case put on hold');
+    hideOverlay();
+  }
+  function markPromise(id, status){ updatePromise(id, { status }); renderPromises(); }
+
+  // ==========
+  // New case modal
+  // ==========
+  function newCaseModal(){
+    const html = `
+      <div class="panel" style="max-width:900px; margin:0 auto">
+        <h3 class="section-title">New case</h3>
+        ${renderQuickCaseForm()}
+      </div>`;
+    showOverlay(html);
+  }
+
+  // ==========
+  // Overlay helper
+  // ==========
+  function showOverlay(html){
+    let overlay = document.createElement('div');
+    overlay.id='overlay';
+    overlay.style.position='fixed'; overlay.style.inset='0'; overlay.style.background='rgba(8,12,24,.7)'; overlay.style.backdropFilter='blur(2px)'; overlay.style.zIndex='1000';
+    overlay.innerHTML = `<div style="max-height:90%; overflow:auto; padding:24px; display:grid; place-items:start"><div style="width:100%">${html}
+      <div class="right" style="margin-top:10px"><button class="btn" onclick="hideOverlay()">Close</button></div></div></div>`;
+    document.body.appendChild(overlay);
+  }
+  function hideOverlay(){ const el=$('#overlay'); if(el) el.remove(); renderActive(); }
+
+  // ==========
+  // Export/Import
+  // ==========
+  function exportJSON(){
+    const data = JSON.stringify(DB, null, 2);
+    download('kindledger_hub_backup.json', data, 'application/json');
+  }
+  function exportCSV(kind){
+    let rows=[], header=[];
+    if(kind==='cases'){
+      header = ['id','customerName','customerEmail','customerPhone','invoiceNumbers','amount','priority','status','nextAction','holdUntil','issueType','owner','createdAt','updatedAt','driveFolder'];
+      rows = DB.cases.map(c=> header.map(h=> c[h]??''));
+    } else if(kind==='touches'){
+      header = ['id','caseId','when','channel','outcome','summary','nextActionDate','createdAt'];
+      rows = DB.touches.map(t=> header.map(h=> t[h]??''));
+    } else if(kind==='promises'){
+      header = ['id','caseId','openedAt','promisedDate','amount','status','followUpDate','notes'];
+      rows = DB.promises.map(p=> header.map(h=> p[h]??''));
+    }
+    const csv = [header.join(','), ...rows.map(r=> r.map(v=> `"${String(v).replace(/"/g,'""')}"`).join(','))].join('\n');
+    download(`kindledger_${kind}.csv`, csv, 'text/csv');
+  }
+  function download(name, data, type){
+    const blob = new Blob([data], {type});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href=url; a.download=name; a.click(); URL.revokeObjectURL(url);
+  }
+  async function importFile(){
+    const f = $('#fileImport').files[0]; if(!f) return alert('Pick a file');
+    const text = await f.text();
+    if(f.type.includes('json')){
+      try{ DB = JSON.parse(text); save(); alert('Imported JSON (replaced dataset).'); }catch(e){ alert('Bad JSON'); }
+    } else {
+      alert('CSV import not implemented in this demo. Export JSON from another machine and import here to migrate.');
+    }
+  }
+
+  // ==========
+  // Settings
+  // ==========
+  function saveSettings(){
+    DB.config = DB.config||{};
+    DB.config.orgName = $('#setOrg').value;
+    DB.config.replyTo = $('#setReply').value;
+    DB.config.owner   = $('#setOwner').value;
+    DB.config.highValue = toNum($('#setHigh').value)||2000;
+    save(); alert('Settings saved');
+  }
+
+  // ==========
+  // Tab routing
+  // ==========
+  function setActive(tab){
+    $$('#tabs .tab').forEach(b=> b.classList.toggle('active', b.dataset.tab===tab));
+    ['queue','cases','touches','promises','data','settings'].forEach(t=>{
+      const el = document.getElementById('screen-'+t);
+      el.style.display = (t===tab)?'block':'none';
+    });
+    window.currentTab = tab; renderActive();
+  }
+  function renderActive(){
+    switch(window.currentTab){
+      case 'queue': return renderQueue();
+      case 'cases': return renderCases();
+      case 'touches': return renderTouches();
+      case 'promises': return renderPromises();
+      case 'data': return renderData();
+      case 'settings': return renderSettings();
+    }
+  }
+  $$('#tabs .tab').forEach(b=> b.addEventListener('click', ()=> setActive(b.dataset.tab)));
+  setActive('queue');
+
+  // ==========
+  // Expose some funcs to window for onclick handlers
+  // ==========
+  Object.assign(window, { openCase, newCaseModal, saveCaseEdits, copyEmailSubject, submitQuickTouch, submitQuickCase, submitTouch, renderQueue, renderCases, renderPromises, markPromise, exportJSON, exportCSV, importFile, saveSettings, submitPromise, hideOverlay });
+  </script>
+</body>
 </html>
