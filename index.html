@@ -1,0 +1,765 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2575.6">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; -webkit-text-stroke: #000000}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; -webkit-text-stroke: #000000; min-height: 14.0px}
+    span.s1 {font-kerning: none}
+    span.s2 {font: 12.0px 'Apple Color Emoji'; font-kerning: none}
+  </style>
+</head>
+<body>
+<p class="p1"><span class="s1">&lt;!DOCTYPE html&gt;</span></p>
+<p class="p1"><span class="s1">&lt;html lang="en"&gt;</span></p>
+<p class="p1"><span class="s1">&lt;head&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;meta charset="UTF-8" /&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1" /&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;title&gt;KindLedger Escalation Hub (Local)&lt;/title&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;style&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>:root{</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>--bg:#0e1217; <span class="Apple-converted-space">          </span>/* app background */</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>--panel:#111827;<span class="Apple-converted-space">        </span>/* cards */</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>--panel-soft:#0f172a; <span class="Apple-converted-space">  </span>/* softer panels */</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>--muted:#94a3b8;<span class="Apple-converted-space">        </span>/* secondary text */</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>--text:#e5e7eb; <span class="Apple-converted-space">        </span>/* primary text */</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>--brand:#2563eb;<span class="Apple-converted-space">        </span>/* brand */</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>--brand-2:#38bdf8;<span class="Apple-converted-space">      </span>/* accent */</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>--ok:#16a34a; <span class="Apple-converted-space">          </span>/* success */</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>--warn:#f59e0b; <span class="Apple-converted-space">        </span>/* warning */</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>--bad:#ef4444;<span class="Apple-converted-space">          </span>/* danger */</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>--chip:#1f2937; <span class="Apple-converted-space">        </span>/* chip bg */</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>--border:#1f2937; <span class="Apple-converted-space">      </span>/* borders */</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>*{box-sizing:border-box}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>html,body{height:100%}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>body{</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>margin:0;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>font-family:ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>background:linear-gradient(180deg, #0b1020, #0a0f1a 40%, #0a0e19 100%);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>color:var(--text);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>a{color:var(--brand-2); text-decoration:none}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>a:hover{text-decoration:underline}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>/* Layout */</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.app{display:grid; grid-template-rows:64px 1fr; height:100%;}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.topbar{</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>display:flex; align-items:center; justify-content:space-between;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>padding:10px 16px; border-bottom:1px solid var(--border);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>background:linear-gradient(90deg, #0b1223, #0c1530);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>box-shadow:0 1px 0 rgba(255,255,255,0.03) inset, 0 10px 40px rgba(0,0,0,0.3);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.brand{display:flex; align-items:center; gap:12px}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.logo{width:36px; height:36px; border-radius:10px; background:linear-gradient(135deg,#2563eb,#38bdf8); display:grid; place-items:center; font-weight:800}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.logo span{color:white}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.brand h1{margin:0; font-size:16px; letter-spacing:.4px; color:#dbeafe}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.tabs{display:flex; gap:8px; flex-wrap:wrap}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.tab{padding:8px 12px; border:1px solid var(--border); border-radius:10px; background:rgba(255,255,255,0.02); cursor:pointer; font-size:14px; color:#cbd5e1}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.tab.active{background:linear-gradient(180deg,#111b33,#0c1326); border-color:#1e293b; color:#e2e8f0}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.container{padding:18px; height:100%; overflow:auto}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.panel{background:linear-gradient(180deg,#0c1222,#0a0f1c); border:1px solid var(--border); border-radius:14px; padding:14px}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.grid{display:grid; gap:14px}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.grid.cols-2{grid-template-columns:1fr 1fr}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.grid.cols-3{grid-template-columns:repeat(3,1fr)}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>@media (max-width: 980px){ .grid.cols-2, .grid.cols-3{grid-template-columns:1fr} }</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.section-title{margin:0 0 10px 0; font-size:14px; color:#cbd5e1; display:flex; align-items:center; gap:8px}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.chips{display:flex; gap:6px; flex-wrap:wrap}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.chip{background:var(--chip); border:1px solid var(--border); padding:4px 8px; border-radius:999px; font-size:12px; color:#cbd5e1}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>/* Tables */</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>table{width:100%; border-collapse:collapse}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>th, td{padding:10px 10px; text-align:left; border-bottom:1px solid var(--border)}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>th{color:#cbd5e1; font-weight:600; background:#0b1428}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>tbody tr:hover{background:rgba(255,255,255,0.02)}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>/* Forms */</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.form{display:grid; gap:10px}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.row{display:grid; gap:10px; grid-template-columns:1fr 1fr}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>@media (max-width: 980px){ .row{grid-template-columns:1fr} }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>label{font-size:12px; color:#93a3b8}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>input, select, textarea{</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>width:100%; padding:10px 12px; border-radius:10px; border:1px solid var(--border);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>background:#0b1223; color:var(--text); outline:none;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>textarea{min-height:88px; resize:vertical}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.btns{display:flex; gap:10px; flex-wrap:wrap}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.btn{padding:10px 14px; border-radius:10px; border:1px solid #1f2937; background:#0d1a34; color:#e2e8f0; cursor:pointer}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.btn:hover{filter:brightness(1.05)}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.btn.primary{background:linear-gradient(180deg,#2563eb,#1d4ed8); border-color:#1d4ed8}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.btn.ghost{background:#0c1222}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.btn.warn{background:#331b06; border-color:#7c2d12; color:#fdba74}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.btn.ok{background:#062b16; border-color:#14532d; color:#86efac}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.kbd{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace; background:#0c1222; border:1px solid var(--border); border-radius:8px; padding:2px 6px; font-size:12px}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.muted{color:var(--muted)}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.right{display:flex; justify-content:flex-end}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.sep{height:1px; background:var(--border); margin:10px 0}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.pill{padding:2px 8px; border-radius:999px; border:1px solid var(--border); font-size:12px}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.pill.open{background:#071a0f; color:#86efac; border-color:#14532d}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.pill.hold{background:#1a1306; color:#fcd34d; border-color:#a16207}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.pill.closed{background:#1a0b0b; color:#fca5a5; border-color:#7f1d1d}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;/style&gt;</span></p>
+<p class="p1"><span class="s1">&lt;/head&gt;</span></p>
+<p class="p1"><span class="s1">&lt;body&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;div class="app"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;div class="topbar"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;div class="brand"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="logo"&gt;&lt;span&gt;K&lt;/span&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;h1&gt;KindLedger — Escalation Hub (Local)&lt;/h1&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;div class="tabs" id="tabs"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;button class="tab active" data-tab="queue"&gt;Queue&lt;/button&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;button class="tab" data-tab="cases"&gt;Cases&lt;/button&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;button class="tab" data-tab="touches"&gt;Touches&lt;/button&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;button class="tab" data-tab="promises"&gt;Promises&lt;/button&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;button class="tab" data-tab="data"&gt;Data&lt;/button&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;button class="tab" data-tab="settings"&gt;Settings&lt;/button&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;div class="container" id="screen-queue"&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;div class="container" id="screen-cases" style="display:none"&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;div class="container" id="screen-touches" style="display:none"&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;div class="container" id="screen-promises" style="display:none"&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;div class="container" id="screen-data" style="display:none"&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;div class="container" id="screen-settings" style="display:none"&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;script&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>// ==========</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>// Utilities</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>// ==========</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>const $ = sel =&gt; document.querySelector(sel);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>const $$ = sel =&gt; Array.from(document.querySelectorAll(sel));</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>const fmtDate = d =&gt; d ? new Date(d).toISOString().slice(0,10) : '';</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>const fmtDateTime = d =&gt; {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>if(!d) return ''; const x = new Date(d);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const pad = n =&gt; String(n).padStart(2,'0');</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>return `${x.getFullYear()}-${pad(x.getMonth()+1)}-${pad(x.getDate())} ${pad(x.getHours())}:${pad(x.getMinutes())}`;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>const todayKey = () =&gt; fmtDate(new Date());</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>const uid = p =&gt; `${p||'ID'}_${Date.now()}_${Math.random().toString(36).slice(2,8)}`;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>const toNum = v =&gt; (v===''||v==null||isNaN(Number(v))) ? 0 : Number(v);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>const parseDate = v =&gt; v ? new Date(v) : null;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>// ==========</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>// Storage (localStorage)</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>// ==========</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>const store = {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>key: 'kl_local_hub_v1',</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>get(){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>const raw = localStorage.getItem(this.key);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>if(!raw) return { cases:[], touches:[], promises:[], config:{ orgName:'', replyTo:'', owner:'' } };</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>try { return JSON.parse(raw) } catch(e){ return { cases:[], touches:[], promises:[], config:{ orgName:'', replyTo:'', owner:'' } } }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>},</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>set(data){ localStorage.setItem(this.key, JSON.stringify(data)); },</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>wipe(){ localStorage.removeItem(this.key); }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>let DB = store.get();</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>// ==========</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>// Data helpers</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>// ==========</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>function addCase(c){ c.id = c.id||uid('CASE'); c.createdAt = c.createdAt||new Date(); c.updatedAt = new Date(); DB.cases.push(c); save(); return c; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>function updateCase(id, patch){ const c = DB.cases.find(x=&gt;x.id===id); if(!c) return; Object.assign(c, patch, {updatedAt:new Date()}); save(); return c; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>function addTouch(t){ t.id = t.id||uid('TOUCH'); t.createdAt = t.createdAt||new Date(); DB.touches.push(t); save(); return t; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>function addPromise(p){ p.id = p.id||uid('PTP'); p.openedAt = p.openedAt||new Date(); DB.promises.push(p); save(); return p; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>function updatePromise(id, patch){ const p = DB.promises.find(x=&gt;x.id===id); if(!p) return; Object.assign(p, patch); save(); return p; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>function caseById(id){ return DB.cases.find(x=&gt;x.id===id); }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>function touchesForCase(id){ return DB.touches.filter(t=&gt;t.caseId===id).sort((a,b)=&gt; new Date(b.createdAt)-new Date(a.createdAt)); }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>function promisesForCase(id){ return DB.promises.filter(p=&gt;p.caseId===id).sort((a,b)=&gt; new Date(b.promisedDate)-new Date(a.promisedDate)); }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>function save(){ store.set(DB); renderActive(); }</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>// Defaults for demo if empty</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>if(DB.cases.length===0){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const c1 = addCase({</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>customerName:'Acme Ltd', customerEmail:'ap@acme.co.uk', customerPhone:'+44 20 7123 4567',</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>invoiceNumbers:'INV-1001, INV-1010', amount:2500, priority:'High', status:'Open', owner:'Team',</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>nextAction: fmtDate(new Date()), holdUntil:'', issueType:'Slow pay', driveFolder:''</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>});</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>addTouch({caseId:c1.id, when:fmtDateTime(new Date()), channel:'Email', outcome:'Sent L2', summary:'Sent consolidated reminder', nextActionDate: fmtDate(new Date())});</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>addPromise({caseId:c1.id, promisedDate: fmtDate(new Date(Date.now()+3*86400000)), amount:1000, status:'Open', followUpDate: fmtDate(new Date(Date.now()+3*86400000)), notes:'Needs PO'});</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>// ==========</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>// Queue logic</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>// ==========</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>function computeQueue(){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const today = new Date(todayKey());</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const ptpDue = DB.promises.filter(p=&gt; p.status==='Open' &amp;&amp; p.promisedDate &amp;&amp; new Date(p.promisedDate) &lt;= today)</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>.map(p=&gt; ({ type:'PTP due', caseId:p.caseId, label:`Promise due ${p.promisedDate}`, weight:100, promised:p }));</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const touchesDue = DB.touches.filter(t=&gt; t.nextActionDate &amp;&amp; new Date(t.nextActionDate) &lt;= today)</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>.map(t=&gt; ({ type:'Follow-up', caseId:t.caseId, label:`Next action ${t.nextActionDate}`, weight:80, touch:t }));</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const caseNext = DB.cases.filter(c=&gt; c.status==='Open' &amp;&amp; c.nextAction &amp;&amp; new Date(c.nextAction) &lt;= today &amp;&amp; (!c.holdUntil || new Date(c.holdUntil) &lt; today))</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>.map(c=&gt; ({ type:'Case action', caseId:c.id, label:`Next action ${c.nextAction}`, weight:60 }));</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const highValue = DB.cases.filter(c=&gt; c.status==='Open' &amp;&amp; toNum(c.amount) &gt;= 2000 &amp;&amp; (!c.holdUntil || new Date(c.holdUntil) &lt; today))</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>.map(c=&gt; ({ type:'High £', caseId:c.id, label:`£${toNum(c.amount).toLocaleString('en-GB')}`, weight:40 }));</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const all = [...ptpDue, ...touchesDue, ...caseNext, ...highValue];</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>all.sort((a,b)=&gt; b.weight - a.weight);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>return all;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>// ==========</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>// Screens</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>// ==========</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>function renderQueue(){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const el = $('#screen-queue');</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const q = computeQueue();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const rows = q.map(item=&gt;{</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>const c = caseById(item.caseId)||{};</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>const chipCls = item.type==='PTP due'?'ok': item.type==='High £'?'warn':'ghost';</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>const statusPill = c.status==='Open'?'open': c.status==='On hold'?'hold':'closed';</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>return `&lt;tr&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;td&gt;&lt;span class="chip ${chipCls}"&gt;${item.type}&lt;/span&gt;&lt;/td&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;td&gt;&lt;b&gt;${c.customerName||''}&lt;/b&gt;&lt;div class="muted"&gt;${c.invoiceNumbers||''}&lt;/div&gt;&lt;/td&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;td&gt;£${toNum(c.amount).toLocaleString('en-GB')}&lt;/td&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;td&gt;&lt;span class="pill ${statusPill}"&gt;${c.status||''}&lt;/span&gt;&lt;/td&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;td&gt;${item.label}&lt;/td&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;td class="right"&gt;&lt;button class="btn" onclick="openCase('${c.id}')"&gt;Open&lt;/button&gt;&lt;/td&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;/tr&gt;`</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}).join('') || `&lt;tr&gt;&lt;td colspan="6" class="muted" style="text-align:center; padding:20px"&gt;Nothing queued for today </span><span class="s2">🎉</span><span class="s1">&lt;/td&gt;&lt;/tr&gt;`;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>el.innerHTML = `</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;div class="grid cols-2"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="panel"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;h3 class="section-title"&gt;Today's queue&lt;/h3&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;table&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;thead&gt;&lt;tr&gt;&lt;th&gt;Type&lt;/th&gt;&lt;th&gt;Customer&lt;/th&gt;&lt;th&gt;Amount&lt;/th&gt;&lt;th&gt;Status&lt;/th&gt;&lt;th&gt;Reason&lt;/th&gt;&lt;th&gt;&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;tbody&gt;${rows}&lt;/tbody&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;/table&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="panel"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;h3 class="section-title"&gt;Quick add — touch&lt;/h3&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>${renderQuickTouchForm()}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;div class="sep"&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;h3 class="section-title"&gt;Quick add — case&lt;/h3&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>${renderQuickCaseForm()}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>`;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>function renderCases(){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const el = $('#screen-cases');</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const rows = DB.cases.slice().sort((a,b)=&gt; new Date(b.updatedAt)-new Date(a.updatedAt)).map(c=&gt;{</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>const statusPill = c.status==='Open'?'open': c.status==='On hold'?'hold':'closed';</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>return `&lt;tr&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;td&gt;&lt;b&gt;${c.customerName}&lt;/b&gt;&lt;div class="muted"&gt;${c.customerEmail||''}&lt;/div&gt;&lt;/td&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;td&gt;${c.invoiceNumbers||''}&lt;/td&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;td&gt;£${toNum(c.amount).toLocaleString('en-GB')}&lt;/td&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;td&gt;${c.priority||''}&lt;/td&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;td&gt;&lt;span class="pill ${statusPill}"&gt;${c.status||''}&lt;/span&gt;&lt;/td&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;td&gt;${c.nextAction?c.nextAction:''}&lt;/td&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;td class="right"&gt;&lt;button class="btn" onclick="openCase('${c.id}')"&gt;Open&lt;/button&gt;&lt;/td&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;/tr&gt;`</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}).join('') || `&lt;tr&gt;&lt;td colspan="7" class="muted" style="text-align:center; padding:20px"&gt;No cases yet&lt;/td&gt;&lt;/tr&gt;`</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>el.innerHTML = `</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;div class="panel"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="row"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;h3 class="section-title"&gt;Cases&lt;/h3&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;div class="right"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;button class="btn" onclick="newCaseModal()"&gt;New case&lt;/button&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;table&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;thead&gt;&lt;tr&gt;&lt;th&gt;Customer&lt;/th&gt;&lt;th&gt;Invoices&lt;/th&gt;&lt;th&gt;Amount&lt;/th&gt;&lt;th&gt;Priority&lt;/th&gt;&lt;th&gt;Status&lt;/th&gt;&lt;th&gt;Next action&lt;/th&gt;&lt;th&gt;&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;tbody&gt;${rows}&lt;/tbody&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/table&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>`;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>function renderTouches(){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const el = $('#screen-touches');</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const rows = DB.touches.slice().sort((a,b)=&gt; new Date(b.createdAt)-new Date(a.createdAt)).map(t=&gt;{</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>const c = caseById(t.caseId)||{};</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>return `&lt;tr&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;td&gt;${fmtDateTime(t.when||t.createdAt)}&lt;/td&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;td&gt;${t.channel}&lt;/td&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;td&gt;${t.outcome||''}&lt;/td&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;td&gt;${c.customerName||''}&lt;div class="muted"&gt;${c.invoiceNumbers||''}&lt;/div&gt;&lt;/td&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;td&gt;${t.summary||''}&lt;/td&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;td&gt;${t.nextActionDate||''}&lt;/td&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;td class="right"&gt;&lt;button class="btn" onclick="openCase('${t.caseId}')"&gt;Open&lt;/button&gt;&lt;/td&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;/tr&gt;`</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}).join('') || `&lt;tr&gt;&lt;td colspan="7" class="muted" style="text-align:center; padding:20px"&gt;No touches logged yet&lt;/td&gt;&lt;/tr&gt;`</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>el.innerHTML = `</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;div class="panel"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;h3 class="section-title"&gt;Touches (latest first)&lt;/h3&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;table&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;thead&gt;&lt;tr&gt;&lt;th&gt;When&lt;/th&gt;&lt;th&gt;Channel&lt;/th&gt;&lt;th&gt;Outcome&lt;/th&gt;&lt;th&gt;Case&lt;/th&gt;&lt;th&gt;Summary&lt;/th&gt;&lt;th&gt;Next action&lt;/th&gt;&lt;th&gt;&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;tbody&gt;${rows}&lt;/tbody&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/table&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>`;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>function renderPromises(){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const el = $('#screen-promises');</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const rows = DB.promises.slice().sort((a,b)=&gt; new Date(a.promisedDate)-new Date(b.promisedDate)).map(p=&gt;{</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>const c = caseById(p.caseId)||{};</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>const statusColor = p.status==='Open'?'ok': p.status==='Kept'?'open': p.status==='Broken'?'bad':'warn';</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>return `&lt;tr&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;td&gt;${fmtDate(p.openedAt)}&lt;/td&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;td&gt;${fmtDate(p.promisedDate)}&lt;/td&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;td&gt;£${toNum(p.amount).toLocaleString('en-GB')}&lt;/td&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;td&gt;&lt;span class="pill ${statusColor}"&gt;${p.status}&lt;/span&gt;&lt;/td&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;td&gt;${c.customerName||''}&lt;/td&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;td&gt;${p.followUpDate||''}&lt;/td&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;td class="right"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;button class="btn" onclick="markPromise('${p.id}','Kept')"&gt;Mark kept&lt;/button&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;button class="btn warn" onclick="markPromise('${p.id}','Broken')"&gt;Mark broken&lt;/button&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/td&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;/tr&gt;`</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}).join('') || `&lt;tr&gt;&lt;td colspan="7" class="muted" style="text-align:center; padding:20px"&gt;No promises yet&lt;/td&gt;&lt;/tr&gt;`</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>el.innerHTML = `</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;div class="panel"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;h3 class="section-title"&gt;Promises to Pay&lt;/h3&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;table&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;thead&gt;&lt;tr&gt;&lt;th&gt;Opened&lt;/th&gt;&lt;th&gt;Promised date&lt;/th&gt;&lt;th&gt;Amount&lt;/th&gt;&lt;th&gt;Status&lt;/th&gt;&lt;th&gt;Case&lt;/th&gt;&lt;th&gt;Follow-up&lt;/th&gt;&lt;th&gt;&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;tbody&gt;${rows}&lt;/tbody&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/table&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>`;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>function renderData(){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const el = $('#screen-data');</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>el.innerHTML = `</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;div class="grid cols-2"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="panel"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;h3 class="section-title"&gt;Export / Backup&lt;/h3&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;div class="btns"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;button class="btn" onclick="exportJSON()"&gt;Export JSON&lt;/button&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;button class="btn" onclick="exportCSV('cases')"&gt;Export Cases CSV&lt;/button&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;button class="btn" onclick="exportCSV('touches')"&gt;Export Touches CSV&lt;/button&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;button class="btn" onclick="exportCSV('promises')"&gt;Export Promises CSV&lt;/button&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;p class="muted"&gt;Tip: export at end of day for backup. This app is single-user and stores data in your browser.&lt;/p&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="panel"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;h3 class="section-title"&gt;Import&lt;/h3&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;input type="file" id="fileImport" accept="application/json,text/csv" /&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;div class="btns" style="margin-top:10px"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;button class="btn" onclick="importFile()"&gt;Import selected file&lt;/button&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;button class="btn warn" onclick="if(confirm('Wipe all local data?')){ DB={ cases:[], touches:[], promises:[], config: DB.config||{} }; save(); }"&gt;Wipe data&lt;/button&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;p class="muted"&gt;JSON import will replace your current dataset. CSV import can be added per table (see docs in code).&lt;/p&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>`;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>function renderSettings(){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const el = $('#screen-settings');</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const c = DB.config||{ orgName:'', replyTo:'', owner:'' };</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>el.innerHTML = `</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;div class="panel"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;h3 class="section-title"&gt;Settings&lt;/h3&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="form"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;div class="row"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div&gt;&lt;label&gt;Organisation name&lt;/label&gt;&lt;input id="setOrg" value="${c.orgName||''}" /&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div&gt;&lt;label&gt;Default reply-to email&lt;/label&gt;&lt;input id="setReply" value="${c.replyTo||''}" /&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;div class="row"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div&gt;&lt;label&gt;Default owner&lt;/label&gt;&lt;input id="setOwner" value="${c.owner||''}" /&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div&gt;&lt;label&gt;High value threshold (£)&lt;/label&gt;&lt;input id="setHigh" value="${c.highValue||2000}" type="number" /&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;div class="btns"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;button class="btn primary" onclick="saveSettings()"&gt;Save settings&lt;/button&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;p class="muted"&gt;These defaults are used when creating cases and computing the daily queue.&lt;/p&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>`;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>// ==========</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>// Case detail modal (inline renderer)</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>// ==========</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>function openCase(id){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const c = caseById(id); if(!c) return alert('Case not found');</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const tList = touchesForCase(id).map(t=&gt; `&lt;tr&gt;&lt;td&gt;${fmtDateTime(t.when||t.createdAt)}&lt;/td&gt;&lt;td&gt;${t.channel}&lt;/td&gt;&lt;td&gt;${t.outcome||''}&lt;/td&gt;&lt;td&gt;${t.summary||''}&lt;/td&gt;&lt;td&gt;${t.nextActionDate||''}&lt;/td&gt;&lt;/tr&gt;`).join('') || `&lt;tr&gt;&lt;td colspan="5" class="muted"&gt;No touches yet&lt;/td&gt;&lt;/tr&gt;`</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const pList = promisesForCase(id).map(p=&gt; `&lt;tr&gt;&lt;td&gt;${fmtDate(p.openedAt)}&lt;/td&gt;&lt;td&gt;${fmtDate(p.promisedDate)}&lt;/td&gt;&lt;td&gt;£${toNum(p.amount).toLocaleString('en-GB')}&lt;/td&gt;&lt;td&gt;${p.status}&lt;/td&gt;&lt;td&gt;${p.followUpDate||''}&lt;/td&gt;&lt;/tr&gt;`).join('') || `&lt;tr&gt;&lt;td colspan="5" class="muted"&gt;No promises yet&lt;/td&gt;&lt;/tr&gt;`</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const html = `</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;div class="panel" style="max-width:1100px; margin:0 auto"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="row"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;h3 class="section-title"&gt;Case — ${c.customerName} &lt;span class="muted"&gt;(${c.invoiceNumbers||''})&lt;/span&gt;&lt;/h3&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div class="chips"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;span class="chip"&gt;ID: ${c.id}&lt;/span&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;span class="chip"&gt;Amount £${toNum(c.amount).toLocaleString('en-GB')}&lt;/span&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;span class="chip"&gt;Priority: ${c.priority||''}&lt;/span&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;div class="right btns"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;button class="btn" onclick="copyEmailSubject('${c.id}')"&gt;Copy email subject&lt;/button&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;button class="btn ok" onclick="saveCaseEdits('${c.id}')"&gt;Save changes&lt;/button&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="sep"&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="form"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;div class="row"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div&gt;&lt;label&gt;Customer name&lt;/label&gt;&lt;input id="ce_name" value="${c.customerName||''}"&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div&gt;&lt;label&gt;Customer email&lt;/label&gt;&lt;input id="ce_email" value="${c.customerEmail||''}"&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;div class="row"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div&gt;&lt;label&gt;Customer phone&lt;/label&gt;&lt;input id="ce_phone" value="${c.customerPhone||''}"&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div&gt;&lt;label&gt;Drive folder URL&lt;/label&gt;&lt;input id="ce_drive" value="${c.driveFolder||''}"&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;div class="row"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div&gt;&lt;label&gt;Invoices&lt;/label&gt;&lt;input id="ce_invoices" value="${c.invoiceNumbers||''}"&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div&gt;&lt;label&gt;Amount (£)&lt;/label&gt;&lt;input id="ce_amount" type="number" value="${toNum(c.amount)}"&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;div class="row"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;label&gt;Status&lt;/label&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;select id="ce_status"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;option ${c.status==='Open'?'selected':''}&gt;Open&lt;/option&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;option ${c.status==='On hold'?'selected':''}&gt;On hold&lt;/option&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;option ${c.status==='Closed'?'selected':''}&gt;Closed&lt;/option&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;/select&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;label&gt;Priority&lt;/label&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;select id="ce_priority"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;option ${c.priority==='High'?'selected':''}&gt;High&lt;/option&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;option ${c.priority==='Medium'?'selected':''}&gt;Medium&lt;/option&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;option ${c.priority==='Low'?'selected':''}&gt;Low&lt;/option&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;/select&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;div class="row"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div&gt;&lt;label&gt;Next action (date)&lt;/label&gt;&lt;input id="ce_next" type="date" value="${c.nextAction||''}"&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div&gt;&lt;label&gt;Hold until (date)&lt;/label&gt;&lt;input id="ce_hold" type="date" value="${c.holdUntil||''}"&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;div class="row"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div&gt;&lt;label&gt;Issue type&lt;/label&gt;&lt;input id="ce_issue" value="${c.issueType||''}"&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div&gt;&lt;label&gt;Owner&lt;/label&gt;&lt;input id="ce_owner" value="${c.owner||''}"&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="sep"&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="grid cols-2"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;h4 class="section-title"&gt;Log touch&lt;/h4&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>${renderTouchForm(c.id)}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;h4 class="section-title"&gt;Promise to pay&lt;/h4&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>${renderPromiseForm(c.id)}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="sep"&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="grid cols-2"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;h4 class="section-title"&gt;Touches&lt;/h4&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;When&lt;/th&gt;&lt;th&gt;Channel&lt;/th&gt;&lt;th&gt;Outcome&lt;/th&gt;&lt;th&gt;Summary&lt;/th&gt;&lt;th&gt;Next&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;${tList}&lt;/tbody&gt;&lt;/table&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;h4 class="section-title"&gt;Promises&lt;/h4&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;Opened&lt;/th&gt;&lt;th&gt;Promised&lt;/th&gt;&lt;th&gt;Amount&lt;/th&gt;&lt;th&gt;Status&lt;/th&gt;&lt;th&gt;Follow-up&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;${pList}&lt;/tbody&gt;&lt;/table&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>`;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>// show in a simple overlay</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>showOverlay(html);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>function saveCaseEdits(id){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const patch = {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>customerName: $('#ce_name').value,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>customerEmail: $('#ce_email').value,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>customerPhone: $('#ce_phone').value,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>driveFolder: $('#ce_drive').value,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>invoiceNumbers: $('#ce_invoices').value,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>amount: toNum($('#ce_amount').value),</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>status: $('#ce_status').value,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>priority: $('#ce_priority').value,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>nextAction: $('#ce_next').value,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>holdUntil: $('#ce_hold').value,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>issueType: $('#ce_issue').value,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>owner: $('#ce_owner').value</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>};</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>updateCase(id, patch);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>hideOverlay();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>function copyEmailSubject(id){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const c = caseById(id); if(!c) return;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const subj = `[Case ${c.id}] ${c.customerName} — ${c.invoiceNumbers} — £${toNum(c.amount).toLocaleString('en-GB')}`;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>navigator.clipboard.writeText(subj).then(()=&gt; alert('Copied subject to clipboard'));</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>// ==========</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>// Forms</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>// ==========</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>function renderQuickTouchForm(){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const caseOpts = DB.cases.map(c=&gt; `&lt;option value="${c.id}"&gt;${c.customerName} — ${c.invoiceNumbers}&lt;/option&gt;`).join('');</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>return `</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;div class="form"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="row"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;div&gt;&lt;label&gt;Case&lt;/label&gt;&lt;select id="qt_case"&gt;${caseOpts}&lt;/select&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;div&gt;&lt;label&gt;When&lt;/label&gt;&lt;input type="datetime-local" id="qt_when" value="${new Date().toISOString().slice(0,16)}"&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="row"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;div&gt;&lt;label&gt;Channel&lt;/label&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;select id="qt_channel"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;option&gt;Phone&lt;/option&gt;&lt;option&gt;Text&lt;/option&gt;&lt;option&gt;Email&lt;/option&gt;&lt;option&gt;Other&lt;/option&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/select&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;div&gt;&lt;label&gt;Outcome&lt;/label&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;select id="qt_outcome"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;option&gt;Spoke&lt;/option&gt;&lt;option&gt;Voicemail&lt;/option&gt;&lt;option&gt;No answer&lt;/option&gt;&lt;option&gt;Sent text&lt;/option&gt;&lt;option&gt;Sent email&lt;/option&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/select&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div&gt;&lt;label&gt;Summary&lt;/label&gt;&lt;textarea id="qt_summary" placeholder="What happened? Next steps?"&gt;&lt;/textarea&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="row"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;div&gt;&lt;label&gt;Next action date (optional)&lt;/label&gt;&lt;input type="date" id="qt_next"&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;div class="btns right" style="align-items:end"&gt;&lt;button class="btn ok" onclick="submitQuickTouch()"&gt;Log touch&lt;/button&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;/div&gt;`</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>function submitQuickTouch(){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const caseId = $('#qt_case').value; if(!caseId) return alert('Pick a case');</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>addTouch({</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>caseId,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>when: $('#qt_when').value.replace('T',' '),</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>channel: $('#qt_channel').value,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>outcome: $('#qt_outcome').value,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>summary: $('#qt_summary').value,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>nextActionDate: $('#qt_next').value || ''</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>});</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>// if next action was set, push to case</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>if($('#qt_next').value){ updateCase(caseId, { nextAction: $('#qt_next').value }); }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>alert('Touch logged');</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>renderQueue();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>function renderQuickCaseForm(){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const c = DB.config||{};</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>return `</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;div class="form"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="row"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;div&gt;&lt;label&gt;Customer name&lt;/label&gt;&lt;input id="qc_name" placeholder="e.g., Acme Ltd"&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;div&gt;&lt;label&gt;Customer email&lt;/label&gt;&lt;input id="qc_email" placeholder="ap@customer.com"&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="row"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;div&gt;&lt;label&gt;Customer phone&lt;/label&gt;&lt;input id="qc_phone" placeholder="+44 ..."&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;div&gt;&lt;label&gt;Amount (£)&lt;/label&gt;&lt;input id="qc_amount" type="number" placeholder="0"&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="row"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;div&gt;&lt;label&gt;Invoices&lt;/label&gt;&lt;input id="qc_invoices" placeholder="INV-1001, INV-1002"&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;div&gt;&lt;label&gt;Priority&lt;/label&gt;&lt;select id="qc_priority"&gt;&lt;option&gt;High&lt;/option&gt;&lt;option selected&gt;Medium&lt;/option&gt;&lt;option&gt;Low&lt;/option&gt;&lt;/select&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="row"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;div&gt;&lt;label&gt;Next action (date)&lt;/label&gt;&lt;input type="date" id="qc_next" value="${fmtDate(new Date())}"&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;div&gt;&lt;label&gt;Owner&lt;/label&gt;&lt;input id="qc_owner" value="${c.owner||''}" placeholder="Assignee"&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="btns right"&gt;&lt;button class="btn primary" onclick="submitQuickCase()"&gt;Create case&lt;/button&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;/div&gt;`</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>function submitQuickCase(){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const c = addCase({</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>customerName: $('#qc_name').value,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>customerEmail: $('#qc_email').value,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>customerPhone: $('#qc_phone').value,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>amount: toNum($('#qc_amount').value),</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>invoiceNumbers: $('#qc_invoices').value,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>priority: $('#qc_priority').value,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>status: 'Open',</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>nextAction: $('#qc_next').value,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>owner: $('#qc_owner').value,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>issueType: '', driveFolder:''</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>});</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>alert('Case created');</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>renderCases();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>function renderTouchForm(caseId){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>return `</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;div class="form"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="row"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;div&gt;&lt;label&gt;When&lt;/label&gt;&lt;input type="datetime-local" id="ct_when" value="${new Date().toISOString().slice(0,16)}"&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;div&gt;&lt;label&gt;Channel&lt;/label&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;select id="ct_channel"&gt;&lt;option&gt;Phone&lt;/option&gt;&lt;option&gt;Text&lt;/option&gt;&lt;option&gt;Email&lt;/option&gt;&lt;option&gt;Other&lt;/option&gt;&lt;/select&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="row"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;div&gt;&lt;label&gt;Outcome&lt;/label&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;select id="ct_outcome"&gt;&lt;option&gt;Spoke&lt;/option&gt;&lt;option&gt;Voicemail&lt;/option&gt;&lt;option&gt;No answer&lt;/option&gt;&lt;option&gt;Sent text&lt;/option&gt;&lt;option&gt;Sent email&lt;/option&gt;&lt;/select&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;div&gt;&lt;label&gt;Next action date (optional)&lt;/label&gt;&lt;input type="date" id="ct_next"&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div&gt;&lt;label&gt;Summary&lt;/label&gt;&lt;textarea id="ct_summary" placeholder="Notes"&gt;&lt;/textarea&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="btns right"&gt;&lt;button class="btn ok" onclick="submitTouch('${caseId}')"&gt;Add touch&lt;/button&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;/div&gt;`</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>function submitTouch(caseId){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>addTouch({ caseId, when: $('#ct_when').value.replace('T',' '), channel: $('#ct_channel').value, outcome: $('#ct_outcome').value, summary: $('#ct_summary').value, nextActionDate: $('#ct_next').value||'' });</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>if($('#ct_next').value){ updateCase(caseId, { nextAction: $('#ct_next').value }); }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>alert('Touch added');</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>hideOverlay();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>function renderPromiseForm(caseId){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>return `</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;div class="form"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="row"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;div&gt;&lt;label&gt;Promised date&lt;/label&gt;&lt;input type="date" id="pp_date" value="${fmtDate(new Date(Date.now()+2*86400000))}"&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;div&gt;&lt;label&gt;Amount (£)&lt;/label&gt;&lt;input id="pp_amt" type="number" placeholder="0"&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="row"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;div&gt;&lt;label&gt;Status&lt;/label&gt;&lt;select id="pp_status"&gt;&lt;option&gt;Open&lt;/option&gt;&lt;option&gt;Kept&lt;/option&gt;&lt;option&gt;Broken&lt;/option&gt;&lt;option&gt;Extended&lt;/option&gt;&lt;/select&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;div&gt;&lt;label&gt;Follow-up date&lt;/label&gt;&lt;input type="date" id="pp_follow" value="${fmtDate(new Date(Date.now()+2*86400000))}"&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div&gt;&lt;label&gt;Notes&lt;/label&gt;&lt;textarea id="pp_notes" placeholder="Any context"&gt;&lt;/textarea&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="btns right"&gt;&lt;button class="btn ok" onclick="submitPromise('${caseId}')"&gt;Add promise&lt;/button&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;/div&gt;`</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>function submitPromise(caseId){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>addPromise({ caseId, promisedDate: $('#pp_date').value, amount: toNum($('#pp_amt').value), status: $('#pp_status').value, followUpDate: $('#pp_follow').value, notes: $('#pp_notes').value });</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>// Put case on hold until promised date</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>if($('#pp_date').value){ updateCase(caseId, { holdUntil: $('#pp_date').value, nextAction: $('#pp_follow').value||$('#pp_date').value }); }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>alert('Promise recorded &amp; case put on hold');</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>hideOverlay();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>function markPromise(id, status){ updatePromise(id, { status }); renderPromises(); }</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>// ==========</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>// New case modal</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>// ==========</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>function newCaseModal(){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const html = `</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;div class="panel" style="max-width:900px; margin:0 auto"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;h3 class="section-title"&gt;New case&lt;/h3&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>${renderQuickCaseForm()}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;/div&gt;`;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>showOverlay(html);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>// ==========</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>// Overlay helper</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>// ==========</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>function showOverlay(html){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>let overlay = document.createElement('div');</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>overlay.id='overlay';</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>overlay.style.position='fixed'; overlay.style.inset='0'; overlay.style.background='rgba(8,12,24,.7)'; overlay.style.backdropFilter='blur(2px)'; overlay.style.zIndex='1000';</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>overlay.innerHTML = `&lt;div style="max-height:90%; overflow:auto; padding:24px; display:grid; place-items:start"&gt;&lt;div style="width:100%"&gt;${html}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;div class="right" style="margin-top:10px"&gt;&lt;button class="btn" onclick="hideOverlay()"&gt;Close&lt;/button&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;`;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>document.body.appendChild(overlay);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>function hideOverlay(){ const el=$('#overlay'); if(el) el.remove(); renderActive(); }</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>// ==========</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>// Export/Import</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>// ==========</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>function exportJSON(){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const data = JSON.stringify(DB, null, 2);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>download('kindledger_hub_backup.json', data, 'application/json');</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>function exportCSV(kind){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>let rows=[], header=[];</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>if(kind==='cases'){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>header = ['id','customerName','customerEmail','customerPhone','invoiceNumbers','amount','priority','status','nextAction','holdUntil','issueType','owner','createdAt','updatedAt','driveFolder'];</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>rows = DB.cases.map(c=&gt; header.map(h=&gt; c[h]??''));</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>} else if(kind==='touches'){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>header = ['id','caseId','when','channel','outcome','summary','nextActionDate','createdAt'];</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>rows = DB.touches.map(t=&gt; header.map(h=&gt; t[h]??''));</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>} else if(kind==='promises'){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>header = ['id','caseId','openedAt','promisedDate','amount','status','followUpDate','notes'];</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>rows = DB.promises.map(p=&gt; header.map(h=&gt; p[h]??''));</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const csv = [header.join(','), ...rows.map(r=&gt; r.map(v=&gt; `"${String(v).replace(/"/g,'""')}"`).join(','))].join('\n');</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>download(`kindledger_${kind}.csv`, csv, 'text/csv');</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>function download(name, data, type){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const blob = new Blob([data], {type});</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const url = URL.createObjectURL(blob);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const a = document.createElement('a'); a.href=url; a.download=name; a.click(); URL.revokeObjectURL(url);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>async function importFile(){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const f = $('#fileImport').files[0]; if(!f) return alert('Pick a file');</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const text = await f.text();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>if(f.type.includes('json')){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>try{ DB = JSON.parse(text); save(); alert('Imported JSON (replaced dataset).'); }catch(e){ alert('Bad JSON'); }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>} else {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>alert('CSV import not implemented in this demo. Export JSON from another machine and import here to migrate.');</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>// ==========</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>// Settings</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>// ==========</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>function saveSettings(){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>DB.config = DB.config||{};</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>DB.config.orgName = $('#setOrg').value;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>DB.config.replyTo = $('#setReply').value;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>DB.config.owner <span class="Apple-converted-space">  </span>= $('#setOwner').value;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>DB.config.highValue = toNum($('#setHigh').value)||2000;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>save(); alert('Settings saved');</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>// ==========</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>// Tab routing</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>// ==========</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>function setActive(tab){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>$$('#tabs .tab').forEach(b=&gt; b.classList.toggle('active', b.dataset.tab===tab));</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>['queue','cases','touches','promises','data','settings'].forEach(t=&gt;{</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>const el = document.getElementById('screen-'+t);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>el.style.display = (t===tab)?'block':'none';</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>});</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>window.currentTab = tab; renderActive();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>function renderActive(){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>switch(window.currentTab){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>case 'queue': return renderQueue();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>case 'cases': return renderCases();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>case 'touches': return renderTouches();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>case 'promises': return renderPromises();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>case 'data': return renderData();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>case 'settings': return renderSettings();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>$$('#tabs .tab').forEach(b=&gt; b.addEventListener('click', ()=&gt; setActive(b.dataset.tab)));</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>setActive('queue');</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>// ==========</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>// Expose some funcs to window for onclick handlers</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>// ==========</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>Object.assign(window, { openCase, newCaseModal, saveCaseEdits, copyEmailSubject, submitQuickTouch, submitQuickCase, submitTouch, renderQueue, renderCases, renderPromises, markPromise, exportJSON, exportCSV, importFile, saveSettings, submitPromise, hideOverlay });</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;/script&gt;</span></p>
+<p class="p1"><span class="s1">&lt;/body&gt;</span></p>
+<p class="p1"><span class="s1">&lt;/html&gt;</span></p>
+</body>
+</html>
