@@ -1,0 +1,167 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Tenant {
+  id             String          @id @default(cuid())
+  name           String
+  users          User[]
+  ledgers        Ledger[]
+  contacts       Contact[]
+  invoices       Invoice[]
+  payments       Payment[]
+  emailTemplates EmailTemplate[]
+  sequences      Sequence[]
+  chasingEvents  ChasingEvent[]
+  created_at     DateTime        @default(now())
+  updated_at     DateTime        @updatedAt
+}
+
+model User {
+  id         String   @id @default(cuid())
+  tenant_id  String
+  tenant     Tenant   @relation(fields: [tenant_id], references: [id])
+  email      String   @unique
+  name       String?
+  role       String   @default("owner")
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model Ledger {
+  id                          String    @id @default(cuid())
+  tenant_id                   String
+  tenant                      Tenant    @relation(fields: [tenant_id], references: [id])
+  provider                    String
+  display_name                String?
+  provider_external_tenant_id String?   @unique
+  access_token_enc            String?
+  refresh_token_enc           String?
+  expires_at                  DateTime?
+  last_synced_at              DateTime?
+  created_at                  DateTime  @default(now())
+  updated_at                  DateTime  @updatedAt
+
+  contacts  Contact[]
+  invoices  Invoice[]
+  payments  Payment[]
+  syncState SyncState?
+}
+
+model Contact {
+  id          String   @id @default(cuid())
+  tenant_id   String
+  tenant      Tenant   @relation(fields: [tenant_id], references: [id])
+  ledger_id   String
+  ledger      Ledger   @relation(fields: [ledger_id], references: [id])
+  external_id String
+  name        String
+  email       String?
+  phone       String?
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+
+  invoices Invoice[]
+
+  @@unique([ledger_id, external_id])
+  @@index([external_id])
+}
+
+model Invoice {
+  id                  String    @id @default(cuid())
+  tenant_id           String
+  tenant              Tenant    @relation(fields: [tenant_id], references: [id])
+  ledger_id           String
+  ledger              Ledger    @relation(fields: [ledger_id], references: [id])
+  external_id         String
+  contact_id          String?
+  contact             Contact?  @relation(fields: [contact_id], references: [id])
+  number              String?
+  currency            String?
+  total               Decimal   @db.Decimal(18, 2)
+  balance             Decimal   @db.Decimal(18, 2)
+  due_date            DateTime?
+  status              String?
+  external_updated_at DateTime?
+  created_at          DateTime  @default(now())
+  updated_at          DateTime  @updatedAt
+
+  payments      Payment[]
+  chasingEvents ChasingEvent[]
+
+  @@unique([ledger_id, external_id])
+  @@index([external_id])
+}
+
+model Payment {
+  id                  String    @id @default(cuid())
+  tenant_id           String
+  tenant              Tenant    @relation(fields: [tenant_id], references: [id])
+  ledger_id           String
+  ledger              Ledger    @relation(fields: [ledger_id], references: [id])
+  external_id         String
+  invoice_id          String?
+  invoice             Invoice?  @relation(fields: [invoice_id], references: [id])
+  amount              Decimal   @db.Decimal(18, 2)
+  paid_at             DateTime?
+  external_updated_at DateTime?
+  created_at          DateTime  @default(now())
+  updated_at          DateTime  @updatedAt
+
+  @@unique([ledger_id, external_id])
+  @@index([external_id])
+}
+
+model SyncState {
+  id             String    @id @default(cuid())
+  ledger_id      String    @unique
+  ledger         Ledger    @relation(fields: [ledger_id], references: [id])
+  cursor         String?
+  last_synced_at DateTime?
+  webhook_ok     Boolean   @default(false)
+}
+
+model EmailTemplate {
+  id         String   @id @default(cuid())
+  tenant_id  String
+  tenant     Tenant   @relation(fields: [tenant_id], references: [id])
+  name       String
+  subject    String
+  body       String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model Sequence {
+  id        String  @id @default(cuid())
+  tenant_id String
+  tenant    Tenant  @relation(fields: [tenant_id], references: [id])
+  name      String
+  is_active Boolean @default(true)
+  steps     Json
+}
+
+model ChasingEvent {
+  id         String   @id @default(cuid())
+  tenant_id  String
+  tenant     Tenant   @relation(fields: [tenant_id], references: [id])
+  invoice_id String
+  invoice    Invoice  @relation(fields: [invoice_id], references: [id])
+  channel    String
+  status     String
+  detail     Json?
+  created_at DateTime @default(now())
+}
+
+model SyncLog {
+  id         String   @id @default(cuid())
+  provider   String
+  action     String
+  details    String?
+  created_at DateTime @default(now())
+}
